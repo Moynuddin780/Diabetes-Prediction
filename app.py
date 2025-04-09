@@ -1,62 +1,80 @@
 import streamlit as st
-import pickle
 import numpy as np
+import pickle
+import base64
 
-# Load the pre-trained model and scaler
-try:
-    with open("diabetes_model.pkl", "rb") as f:
-        model_classifier = pickle.load(f)
-    with open("diabetes_scaler.pkl", "rb") as f:
-        scaler = pickle.load(f)
-except FileNotFoundError:
-    st.error("Model or Scaler files not found. Please upload the files.")
-    st.stop()  # Stop the execution if files are not found
+# === 🔹 Set Background Image ===
+def set_bg_from_local(image_path):
+    with open(image_path, "rb") as img_file:
+        encoded_string = base64.b64encode(img_file.read()).decode()
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image: url("data:image/jpg;base64,{encoded_string}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
-# Streamlit user input
-st.title("Diabetes Prediction")
-st.write("Enter values for the following features:")
+set_bg_from_local("background.jpg")  # Make sure this file exists
 
-# Create two columns for input
+# === 🔹 Load Model and Scaler ===
+with open("diabetes_model.pkl", "rb") as f:
+    model = pickle.load(f)
+
+with open("diabetes_scaler.pkl", "rb") as f:
+    scaler = pickle.load(f)
+
+st.title("🩺 Diabetes Prediction App")
+
+# === 🔹 Input Fields (Two Columns) ===
+st.markdown("### Enter Patient Details:")
+
 col1, col2 = st.columns(2)
 
-# First column input fields
 with col1:
-    age = st.number_input('Age', min_value=1, max_value=100)
-    pregnancies = st.number_input('Pregnancies', min_value=0, max_value=20)
-    bmi = st.number_input('BMI', min_value=0.0, max_value=100.0)
-    glucose = st.number_input('Glucose', min_value=0, max_value=300)
-    blood_pressure = st.number_input('BloodPressure', min_value=0, max_value=200)
-    hba1c = st.number_input('HbA1c', min_value=0.0, max_value=10.0)
-    ldl = st.number_input('LDL', min_value=0, max_value=300)
-    hdl = st.number_input('HDL', min_value=0, max_value=100)
+    age = st.number_input("Age", min_value=0)
+    bmi = st.number_input("BMI")
+    glucose = st.number_input("Glucose")
+    hba1c = st.number_input("HbA1c")
 
-# Second column input fields
 with col2:
-    triglycerides = st.number_input('Triglycerides', min_value=0, max_value=500)
-    waist_circumference = st.number_input('WaistCircumference', min_value=0, max_value=200)
-    hip_circumference = st.number_input('HipCircumference', min_value=0, max_value=200)
-    whr = st.number_input('WHR', min_value=0.0, max_value=1.0)
-    family_history = st.selectbox('FamilyHistory', options=[0, 1])
-    diet_type = st.selectbox('DietType', options=[0, 1])
-    hypertension = st.selectbox('Hypertension', options=[0, 1])
-    medication_use = st.selectbox('MedicationUse', options=[0, 1])
+    pregnancies = st.number_input("Pregnancies", min_value=0)
+    blood_pressure = st.number_input("Blood Pressure")
+    ldl = st.number_input("LDL")
+    hdl = st.number_input("HDL")
 
-# Gather the input data
-input_data = np.array([age, pregnancies, bmi, glucose, blood_pressure, hba1c, ldl, hdl,
-                       triglycerides, waist_circumference, hip_circumference, whr, family_history,
-                       diet_type, hypertension, medication_use])
+# === 🔹 Last 2 Rows ===
+triglycerides = st.number_input("Triglycerides")
+waist = st.number_input("Waist Circumference")
+hip = st.number_input("Hip Circumference")
+whr = st.number_input("WHR")
+family_history = st.selectbox("Family History", [0, 1])
+diet_type = st.selectbox("Diet Type (0 = Normal, 1 = Controlled)", [0, 1])
+hypertension = st.selectbox("Hypertension", [0, 1])
+medication_use = st.selectbox("Medication Use", [0, 1])
 
-# Reshape and scale the input data
-input_data_reshape = input_data.reshape(1, -1)
-input_data_scaled = scaler.transform(input_data_reshape)
+# === 🔹 Predict Button ===
+if st.button("Predict"):
+    input_data = [
+        glucose, blood_pressure, hba1c, ldl, hdl, triglycerides,
+        waist, hip, whr, family_history, diet_type,
+        hypertension, medication_use, age, pregnancies, bmi
+    ]
 
-# Button to trigger prediction
-if st.button('Predict'):
-    # Predict the outcome using the model
-    prediction = model_classifier.predict(input_data_scaled)
-    
-    # Display the result with personalized messages
+    input_np = np.array(input_data).reshape(1, -1)
+    input_scaled = scaler.transform(input_np)
+
+    prediction = model.predict(input_scaled)
+
     if prediction[0] == 0:
-        st.success("Congratulations! You're not diabetic. Keep up the healthy lifestyle!")
+        st.success("🎉 You are not diabetic. Keep living a healthy life!")
+        st.image("not_diabetic.jpg", width=300)  # Add this image to the folder
     else:
-        st.warning("It seems you are diabetic. Stay strong and take care of your health!")
+        st.warning("⚠️ You might be diabetic. Take care and consult a doctor.")
+        st.image("diabetic.jpg", width=300)  # Add this image to the folder
