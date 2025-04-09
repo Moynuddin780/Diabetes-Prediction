@@ -1,56 +1,63 @@
 import streamlit as st
 import numpy as np
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import accuracy_score
-from sklearn import svm
-import pickle
+import joblib  # Assuming you're loading pre-trained model and scaler using joblib
 
-# Load dataset
-diabetes_dataset = pd.read_csv("diabetes_dataset.csv")
+# Load your trained model and scaler
+model_classifier = joblib.load('path_to_your_trained_model.pkl')  # Replace with your actual model path
+scaler = joblib.load('path_to_your_scaler.pkl')  # Replace with your actual scaler path
 
-# Preprocessing
-x = diabetes_dataset.iloc[:, :-1]
-y = diabetes_dataset['Outcome']
-scaler = StandardScaler()
-x = scaler.fit_transform(x)
-
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=2, stratify=y)
-
-# Train model
-model_classifier = svm.SVC(kernel='linear')
-model_classifier.fit(x_train, y_train)
-
-# Streamlit UI
+# Streamlit interface
 st.title("Diabetes Prediction App")
 
-# Input Fields
-st.sidebar.header("Enter Patient Details:")
-pregnancies = st.sidebar.number_input("Pregnancies", 0, 20, step=1)
-glucose = st.sidebar.number_input("Glucose Level", 0, 200, step=1)
-blood_pressure = st.sidebar.number_input("Blood Pressure", 0, 150, step=1)
-skin_thickness = st.sidebar.number_input("Skin Thickness", 0, 100, step=1)
-insulin = st.sidebar.number_input("Insulin", 0.0, 300.0, step=0.1)
-bmi = st.sidebar.number_input("BMI", 0.0, 50.0, step=0.1)
-diabetes_pedigree = st.sidebar.number_input("Diabetes Pedigree Function", 0.0, 2.5, step=0.01)
-age = st.sidebar.number_input("Age", 0, 120, step=1)
+# Input form
+st.subheader("Enter details to predict if the person is diabetic:")
 
-# Prediction Button
-if st.sidebar.button("Predict"):
-    input_data = np.array([[pregnancies, glucose, blood_pressure, skin_thickness, insulin, bmi, diabetes_pedigree, age]])
-    input_scaled = scaler.transform(input_data)
-    prediction = model_classifier.predict(input_scaled)
+# Input fields for 16 features (example with placeholders, modify accordingly)
+age = st.number_input("Age", min_value=1, max_value=120, value=45)
+pregnancies = st.number_input("Pregnancies", min_value=0, max_value=20, value=2)
+bmi = st.number_input("BMI", min_value=10.0, max_value=100.0, value=25.6)
+glucose = st.number_input("Glucose", min_value=40, max_value=250, value=120)
+blood_pressure = st.number_input("Blood Pressure", min_value=40, max_value=200, value=80)
+hba1c = st.number_input("HbA1c (%)", min_value=4.0, max_value=15.0, value=6.5)
+ldl = st.number_input("LDL (mg/dL)", min_value=50, max_value=200, value=100)
+hdl = st.number_input("HDL (mg/dL)", min_value=20, max_value=100, value=50)
+triglycerides = st.number_input("Triglycerides (mg/dL)", min_value=50, max_value=300, value=150)
+waist_circumference = st.number_input("Waist Circumference (cm)", min_value=50, max_value=150, value=85)
+hip_circumference = st.number_input("Hip Circumference (cm)", min_value=50, max_value=150, value=95)
+wh_ratio = st.number_input("Waist-to-Hip Ratio (WHR)", min_value=0.5, max_value=1.0, value=0.8)
+family_history = st.selectbox("Family History (0: No, 1: Yes)", [0, 1], index=0)
+diet_type = st.selectbox("Diet Type (0: Non-Veg, 1: Veg)", [0, 1], index=0)
+hypertension = st.selectbox("Hypertension (0: No, 1: Yes)", [0, 1], index=0)
+medication_use = st.selectbox("Medication Use (0: No, 1: Yes)", [0, 1], index=0)
 
-    # Output Result
-    if prediction[0] == 0:
-        st.success("✅ The patient is NOT Diabetic.")
-    else:
-        st.error("⚠️ The patient is Diabetic.")
+# Collect input data into a list
+input_data = [
+    age, pregnancies, bmi, glucose, blood_pressure, hba1c,
+    ldl, hdl, triglycerides, waist_circumference, hip_circumference,
+    wh_ratio, family_history, diet_type, hypertension, medication_use
+]
 
-# Show Model Accuracy
-st.write("### Model Accuracy")
-train_accuracy = accuracy_score(model_classifier.predict(x_train), y_train)
-test_accuracy = accuracy_score(model_classifier.predict(x_test), y_test)
-st.write(f"Train Accuracy: **{train_accuracy:.2f}**")
-st.write(f"Test Accuracy: **{test_accuracy:.2f}**")
+# Ensure the input data has the correct number of features (16)
+if len(input_data) != 16:
+    st.error("Input data does not have the correct number of features (16). Please provide data for all features.")
+else:
+    # Convert input to NumPy array and reshape it for the model
+    input_data_as_numpy_array = np.asarray(input_data)
+    input_data_reshape = input_data_as_numpy_array.reshape(1, -1)
+
+    try:
+        # Scale the input data using the previously fitted scaler
+        input_scaled = scaler.transform(input_data_reshape)
+
+        # Make the prediction using the trained model
+        prediction = model_classifier.predict(input_scaled)
+
+        # Display the prediction result
+        if prediction[0] == 0:
+            st.write("Prediction: No Diabetic")
+        else:
+            st.write("Prediction: Diabetic")
+
+    except Exception as e:
+        # Handle errors (e.g., scaler not properly fitted or input data issues)
+        st.error(f"Error during prediction: {e}")
