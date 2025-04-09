@@ -20,6 +20,7 @@ st.markdown("""
         border-radius: 20px;
         box-shadow: 0 8px 30px rgba(0,0,0,0.1);
         margin: auto;
+        border: none; /* Remove the white block's border */
     }
 
     h1 {
@@ -32,11 +33,12 @@ st.markdown("""
         background: linear-gradient(to right, #00acc1, #26c6da);
         color: white;
         padding: 0.75rem 2rem;
-        font-size: 1rem;
+        font-size: 1.1rem;
         font-weight: bold;
         border-radius: 10px;
         border: none;
         transition: all 0.3s ease-in-out;
+        text-transform: uppercase;  /* Make the text uppercase */
     }
 
     .stButton>button:hover {
