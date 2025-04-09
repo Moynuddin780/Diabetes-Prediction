@@ -9,16 +9,16 @@ st.set_page_config(page_title="Diabetes Prediction", layout="centered")
 st.markdown("""
     <style>
     .stApp {
-        background: linear-gradient(to right, #e0f7fa, #80deea, #26c6da);
+        background: linear-gradient(to right, #c1e6f1, #a1d8e7, #80deea);
         font-family: 'Segoe UI', sans-serif;
         color: #0d1b2a;
     }
 
     .main-container {
-        background-color: rgba(255, 255, 255, 0.95);
+        background-color: rgba(255, 255, 255, 0.85);
         padding: 2.5rem;
         border-radius: 20px;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        box-shadow: 0 8px 30px rgba(0,0,0,0.1);
         margin: auto;
     }
 
@@ -44,12 +44,26 @@ st.markdown("""
         transform: scale(1.03);
     }
 
-    .stSelectbox>div>div {
+    .stSelectbox>div>div,
+    .stNumberInput>div>div {
         border-radius: 8px;
     }
 
+    .stTextInput>div>div,
     .stNumberInput>div>div {
+        background-color: rgba(255, 255, 255, 0.75);
         border-radius: 8px;
+        color: #0d1b2a;
+    }
+
+    .stSelectbox, .stNumberInput {
+        font-size: 1rem;
+        color: #0d1b2a;
+    }
+
+    .stForm label {
+        color: #0d1b2a;
+        font-weight: bold;
     }
     </style>
 """, unsafe_allow_html=True)
