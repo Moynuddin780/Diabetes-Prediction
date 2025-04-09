@@ -1,67 +1,62 @@
 import streamlit as st
-import numpy as np
 import pickle
-from sklearn.preprocessing import StandardScaler
+import numpy as np
 
-# Load the trained model and scaler
-with open("diabetes_model.pkl", "rb") as f:
-    model_classifier = pickle.load(f)
+# Load the pre-trained model and scaler
+try:
+    with open("diabetes_model.pkl", "rb") as f:
+        model_classifier = pickle.load(f)
+    with open("diabetes_scaler.pkl", "rb") as f:
+        scaler = pickle.load(f)
+except FileNotFoundError:
+    st.error("Model or Scaler files not found. Please upload the files.")
+    st.stop()  # Stop the execution if files are not found
 
-with open("diabetes_scaler.pkl", "rb") as f:
-    scaler = pickle.load(f)
+# Streamlit user input
+st.title("Diabetes Prediction")
+st.write("Enter values for the following features:")
 
-# Streamlit interface
-st.title("Diabetes Prediction App")
+# Create two columns for input
+col1, col2 = st.columns(2)
 
-# Input form
-st.subheader("Enter details to predict if the person is diabetic:")
+# First column input fields
+with col1:
+    age = st.number_input('Age', min_value=1, max_value=100)
+    pregnancies = st.number_input('Pregnancies', min_value=0, max_value=20)
+    bmi = st.number_input('BMI', min_value=0.0, max_value=100.0)
+    glucose = st.number_input('Glucose', min_value=0, max_value=300)
+    blood_pressure = st.number_input('BloodPressure', min_value=0, max_value=200)
+    hba1c = st.number_input('HbA1c', min_value=0.0, max_value=10.0)
+    ldl = st.number_input('LDL', min_value=0, max_value=300)
+    hdl = st.number_input('HDL', min_value=0, max_value=100)
 
-# Input fields for 16 features (example with placeholders, modify accordingly)
-age = st.number_input("Age", min_value=1, max_value=120, value=45)
-pregnancies = st.number_input("Pregnancies", min_value=0, max_value=20, value=2)
-bmi = st.number_input("BMI", min_value=10.0, max_value=100.0, value=25.6)
-glucose = st.number_input("Glucose", min_value=40, max_value=250, value=120)
-blood_pressure = st.number_input("Blood Pressure", min_value=40, max_value=200, value=80)
-hba1c = st.number_input("HbA1c (%)", min_value=4.0, max_value=15.0, value=6.5)
-ldl = st.number_input("LDL (mg/dL)", min_value=50, max_value=200, value=100)
-hdl = st.number_input("HDL (mg/dL)", min_value=20, max_value=100, value=50)
-triglycerides = st.number_input("Triglycerides (mg/dL)", min_value=50, max_value=300, value=150)
-waist_circumference = st.number_input("Waist Circumference (cm)", min_value=50, max_value=150, value=85)
-hip_circumference = st.number_input("Hip Circumference (cm)", min_value=50, max_value=150, value=95)
-wh_ratio = st.number_input("Waist-to-Hip Ratio (WHR)", min_value=0.5, max_value=1.0, value=0.8)
-family_history = st.selectbox("Family History (0: No, 1: Yes)", [0, 1], index=0)
-diet_type = st.selectbox("Diet Type (0: Non-Veg, 1: Veg)", [0, 1], index=0)
-hypertension = st.selectbox("Hypertension (0: No, 1: Yes)", [0, 1], index=0)
-medication_use = st.selectbox("Medication Use (0: No, 1: Yes)", [0, 1], index=0)
+# Second column input fields
+with col2:
+    triglycerides = st.number_input('Triglycerides', min_value=0, max_value=500)
+    waist_circumference = st.number_input('WaistCircumference', min_value=0, max_value=200)
+    hip_circumference = st.number_input('HipCircumference', min_value=0, max_value=200)
+    whr = st.number_input('WHR', min_value=0.0, max_value=1.0)
+    family_history = st.selectbox('FamilyHistory', options=[0, 1])
+    diet_type = st.selectbox('DietType', options=[0, 1])
+    hypertension = st.selectbox('Hypertension', options=[0, 1])
+    medication_use = st.selectbox('MedicationUse', options=[0, 1])
 
-# Collect input data into a list
-input_data = [
-    age, pregnancies, bmi, glucose, blood_pressure, hba1c,
-    ldl, hdl, triglycerides, waist_circumference, hip_circumference,
-    wh_ratio, family_history, diet_type, hypertension, medication_use
-]
+# Gather the input data
+input_data = np.array([age, pregnancies, bmi, glucose, blood_pressure, hba1c, ldl, hdl,
+                       triglycerides, waist_circumference, hip_circumference, whr, family_history,
+                       diet_type, hypertension, medication_use])
 
-# Ensure the input data has the correct number of features (16)
-if len(input_data) != 16:
-    st.error("Input data does not have the correct number of features (16). Please provide data for all features.")
-else:
-    # Convert input to NumPy array and reshape it for the model
-    input_data_as_numpy_array = np.asarray(input_data)
-    input_data_reshape = input_data_as_numpy_array.reshape(1, -1)
+# Reshape and scale the input data
+input_data_reshape = input_data.reshape(1, -1)
+input_data_scaled = scaler.transform(input_data_reshape)
 
-    try:
-        # Scale the input data using the previously fitted scaler
-        input_scaled = scaler.transform(input_data_reshape)
-
-        # Make the prediction using the trained model
-        prediction = model_classifier.predict(input_scaled)
-
-        # Display the prediction result
-        if prediction[0] == 0:
-            st.write("Prediction: No Diabetic")
-        else:
-            st.write("Prediction: Diabetic")
-
-    except Exception as e:
-        # Handle errors (e.g., scaler not properly fitted or input data issues)
-        st.error(f"Error during prediction: {e}")
+# Button to trigger prediction
+if st.button('Predict'):
+    # Predict the outcome using the model
+    prediction = model_classifier.predict(input_data_scaled)
+    
+    # Display the result with personalized messages
+    if prediction[0] == 0:
+        st.success("Congratulations! You're not diabetic. Keep up the healthy lifestyle!")
+    else:
+        st.warning("It seems you are diabetic. Stay strong and take care of your health!")
