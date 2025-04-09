@@ -9,7 +9,7 @@ st.set_page_config(page_title="Diabetes Prediction", layout="centered")
 st.markdown("""
     <style>
     .stApp {
-        background: linear-gradient(to right, #c1e6f1, #a1d8e7, #80deea);
+        background: linear-gradient(to right, #9fc9d7, #80b0c1, #6c98a9);  /* Darker gradient */
         font-family: 'Segoe UI', sans-serif;
         color: #0d1b2a;
     }
