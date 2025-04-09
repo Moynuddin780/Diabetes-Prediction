@@ -1,10 +1,14 @@
 import streamlit as st
 import numpy as np
-import joblib  # Assuming you're loading pre-trained model and scaler using joblib
+import pickle
+from sklearn.preprocessing import StandardScaler
 
-# Load your trained model and scaler
-model_classifier = joblib.load('path_to_your_trained_model.pkl')  # Replace with your actual model path
-scaler = joblib.load('path_to_your_scaler.pkl')  # Replace with your actual scaler path
+# Load the trained model and scaler
+with open("diabetes_model.pkl", "rb") as f:
+    model_classifier = pickle.load(f)
+
+with open("diabetes_scaler.pkl", "rb") as f:
+    scaler = pickle.load(f)
 
 # Streamlit interface
 st.title("Diabetes Prediction App")
