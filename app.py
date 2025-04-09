@@ -2,59 +2,69 @@ import streamlit as st
 import numpy as np
 import pickle
 
-# 💻 Set page configuration
+# 🎨 Page config
 st.set_page_config(page_title="Diabetes Prediction", layout="centered")
 
-# 🌈 Custom CSS for background and style
-st.markdown(
-    """
+# 🌈 Custom CSS
+st.markdown("""
     <style>
     .stApp {
-        background: linear-gradient(to right, #dfe9f3, #ffffff);
+        background: linear-gradient(to right, #e0f7fa, #80deea, #26c6da);
         font-family: 'Segoe UI', sans-serif;
+        color: #0d1b2a;
     }
 
-    .css-1d391kg {
-        background-color: rgba(255, 255, 255, 0.8);
-        padding: 2rem;
-        border-radius: 15px;
-        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    .main-container {
+        background-color: rgba(255, 255, 255, 0.95);
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        margin: auto;
     }
 
     h1 {
-        color: #0d47a1;
+        color: #01579b;
         text-align: center;
+        margin-bottom: 2rem;
     }
 
     .stButton>button {
-        background-color: #0d47a1;
+        background: linear-gradient(to right, #00acc1, #26c6da);
         color: white;
+        padding: 0.75rem 2rem;
+        font-size: 1rem;
         font-weight: bold;
-        border-radius: 8px;
-        padding: 10px 24px;
+        border-radius: 10px;
         border: none;
-        transition: 0.3s;
+        transition: all 0.3s ease-in-out;
     }
 
     .stButton>button:hover {
-        background-color: #1565c0;
+        background: linear-gradient(to right, #0097a7, #00acc1);
+        transform: scale(1.03);
+    }
+
+    .stSelectbox>div>div {
+        border-radius: 8px;
+    }
+
+    .stNumberInput>div>div {
+        border-radius: 8px;
     }
     </style>
-    """,
-    unsafe_allow_html=True
-)
+""", unsafe_allow_html=True)
 
-# ✅ Load model and scaler
+# ✅ Load Model and Scaler
 with open("diabetes_model.pkl", "rb") as f:
     model = pickle.load(f)
-
 with open("diabetes_scaler.pkl", "rb") as f:
     scaler = pickle.load(f)
 
-# 🚀 App Title
+# 💬 Title
+st.markdown('<div class="main-container">', unsafe_allow_html=True)
 st.markdown("<h1>🩺 Diabetes Prediction</h1>", unsafe_allow_html=True)
 
-# 🧾 Input Form (3 rows, 2 columns each)
+# 📥 Input Fields
 with st.form("diabetes_form"):
     col1, col2 = st.columns(2)
     with col1:
@@ -77,30 +87,32 @@ with st.form("diabetes_form"):
     col5, col6 = st.columns(2)
     with col5:
         whr = st.number_input("WHR", value=0.8)
-        family_history = st.selectbox("Family History", [0, 1])
+        family_history = st.selectbox("Family History (Yes=1 / No=0)", [1, 0])
     with col6:
-        diet_type = st.selectbox("Diet Type", [0, 1])
-        hypertension = st.selectbox("Hypertension", [0, 1])
+        diet_type = st.selectbox("Diet Type (Healthy=1 / Unhealthy=0)", [1, 0])
+        hypertension = st.selectbox("Hypertension (Yes=1 / No=0)", [1, 0])
 
-    medication_use = st.selectbox("Medication Use", [0, 1])
+    medication_use = st.selectbox("Medication Use (Yes=1 / No=0)", [1, 0])
 
-    # 🧪 Predict Button
-    submitted = st.form_submit_button("Predict")
+    # 🔘 Predict Button
+    submit = st.form_submit_button("Predict")
 
-    if submitted:
-        input_data = np.array([age, pregnancies, 25.6, glucose, blood_pressure, hba1c,
-                               ldl, hdl, triglycerides, waist, hip, whr,
-                               family_history, diet_type, hypertension, medication_use])
+    if submit:
+        input_data = np.array([
+            age, pregnancies, 25.6, glucose, blood_pressure, hba1c,
+            ldl, hdl, triglycerides, waist, hip, whr,
+            family_history, diet_type, hypertension, medication_use
+        ])
 
         input_scaled = scaler.transform(input_data.reshape(1, -1))
         prediction = model.predict(input_scaled)
 
         st.markdown("---")
         if prediction[0] == 1:
-            st.error("⚠️ You may be Diabetic.\n\nPlease consult a medical professional.")
-            st.info("Stay strong 💙, with proper care and lifestyle, you can lead a healthy life.")
+            st.error("⚠️ **You may be Diabetic.**")
+            st.info("Take care 💙 — with proper treatment and lifestyle, you can stay healthy.")
         else:
-            st.success("✅ You are not Diabetic.")
+            st.success("✅ **You are not Diabetic.**")
             st.balloons()
-            st.markdown("🎉 Keep up the good health! Maintain your lifestyle and stay happy!")
-
+            st.markdown("🎉 Congrats! Keep maintaining a healthy lifestyle.")
+st.markdown("</div>", unsafe_allow_html=True)
