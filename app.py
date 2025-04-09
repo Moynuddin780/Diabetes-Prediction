@@ -16,37 +16,29 @@ except FileNotFoundError:
 st.title("Diabetes Prediction")
 st.write("Enter values for the following features:")
 
-# Create three rows for input
-col1, col2, col3 = st.columns(3)
+# Create two columns for input
+col1, col2 = st.columns(2)
 
-# First row input fields
+# First column input fields
 with col1:
     age = st.number_input('Age', min_value=1, max_value=100)
     pregnancies = st.number_input('Pregnancies', min_value=0, max_value=20)
     bmi = st.number_input('BMI', min_value=0.0, max_value=100.0)
-
-with col2:
     glucose = st.number_input('Glucose', min_value=0, max_value=300)
     blood_pressure = st.number_input('BloodPressure', min_value=0, max_value=200)
     hba1c = st.number_input('HbA1c', min_value=0.0, max_value=10.0)
-
-with col3:
     ldl = st.number_input('LDL', min_value=0, max_value=300)
     hdl = st.number_input('HDL', min_value=0, max_value=100)
-    triglycerides = st.number_input('Triglycerides', min_value=0, max_value=500)
 
-# Second row input fields
-with col1:
+# Second column input fields
+with col2:
+    triglycerides = st.number_input('Triglycerides', min_value=0, max_value=500)
     waist_circumference = st.number_input('WaistCircumference', min_value=0, max_value=200)
     hip_circumference = st.number_input('HipCircumference', min_value=0, max_value=200)
     whr = st.number_input('WHR', min_value=0.0, max_value=1.0)
-
-with col2:
     family_history = st.selectbox('FamilyHistory', options=[0, 1])
     diet_type = st.selectbox('DietType', options=[0, 1])
     hypertension = st.selectbox('Hypertension', options=[0, 1])
-
-with col3:
     medication_use = st.selectbox('MedicationUse', options=[0, 1])
 
 # Gather the input data
