@@ -5,7 +5,7 @@ import pickle
 # 🎨 Page config
 st.set_page_config(page_title="Diabetes Prediction", layout="centered")
 
-# 🌈 Custom CSS
+# 🌈 Custom CSS for Output Section
 st.markdown("""
     <style>
     .stApp {
@@ -59,33 +59,43 @@ st.markdown("""
         font-weight: bold;
     }
 
-    /* Output message color adjustments */
-    
-.stAlert {
-    font-size: 1.1rem;
-    border-radius: 10px;
-}
+    /* Custom Styling for Output Messages */
+    .stAlert {
+        font-size: 1.2rem;  /* Increased font size */
+        font-weight: bold;
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-.stAlert[data-testid="stAlert-danger"] {
-    background-color: #ff6666; /* Even deeper red for background */
-    border-left: 6px solid #d32f2f; /* Stronger red for the border */
-    color: #8b0000; /* Darker red for text */
-}
+    .stAlert[data-testid="stAlert-danger"] {
+        background-color: #ffcccc; /* Light red for background */
+        border-left: 8px solid #d32f2f; /* Stronger red for the border */
+        color: #8b0000; /* Darker red for text */
+        font-size: 1.3rem; /* Slightly larger font */
+        text-align: center;
+    }
 
-.stAlert[data-testid="stAlert-success"] {
-    background-color: #a5d6a7; /* Deeper green for background */
-    border-left: 6px solid #388e3c; /* Stronger green for the border */
-    color: #2e7d32; /* Darker green for text */
-}
+    .stAlert[data-testid="stAlert-success"] {
+        background-color: #d4edda; /* Light green for background */
+        border-left: 8px solid #388e3c; /* Stronger green for the border */
+        color: #155724; /* Darker green for text */
+        font-size: 1.3rem; /* Slightly larger font */
+        text-align: center;
+    }
 
-.stAlert[data-testid="stAlert-info"] {
-    background-color: #90caf9; /* Deeper blue for background */
-    border-left: 6px solid #1976d2; /* Stronger blue for the border */
-    color: #1565c0; /* Darker blue for text */
-}
+    .stAlert[data-testid="stAlert-info"] {
+        background-color: #cce5ff; /* Light blue for background */
+        border-left: 8px solid #007bff; /* Stronger blue for the border */
+        color: #004085; /* Darker blue for text */
+        font-size: 1.3rem; /* Slightly larger font */
+        text-align: center;
+    }
 
     </style>
 """, unsafe_allow_html=True)
+
 
 
 # ✅ Load Model and Scaler
