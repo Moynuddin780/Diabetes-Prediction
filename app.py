@@ -9,7 +9,7 @@ st.set_page_config(page_title="Diabetes Prediction", layout="centered")
 st.markdown("""
     <style>
     .stApp {
-        background: linear-gradient(to right, #9fc9d7, #80b0c1, #6c98a9);
+        background: linear-gradient(to right, #d3eaf2, #b0d0d9, #a3b7c8); /* Lighter background colors */
         font-family: 'Segoe UI', sans-serif;
         color: #0d1b2a;
     }
@@ -84,9 +84,9 @@ st.markdown("""
     color: #1565c0; /* Darker blue for text */
 }
 
-
     </style>
 """, unsafe_allow_html=True)
+
 
 # ✅ Load Model and Scaler
 with open("diabetes_model.pkl", "rb") as f:
