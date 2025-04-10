@@ -60,29 +60,30 @@ st.markdown("""
     }
 
     /* Output message color adjustments */
-  /* Output message color adjustments */
+    
 .stAlert {
     font-size: 1.1rem;
     border-radius: 10px;
 }
 
 .stAlert[data-testid="stAlert-danger"] {
-    background-color: #ffcccc; /* Deeper red for background */
+    background-color: #ff6666; /* Even deeper red for background */
     border-left: 6px solid #d32f2f; /* Stronger red for the border */
-    color: #b71c1c; /* Darker red for text */
+    color: #8b0000; /* Darker red for text */
 }
 
 .stAlert[data-testid="stAlert-success"] {
-    background-color: #c8e6c9; /* Deeper green for background */
+    background-color: #a5d6a7; /* Deeper green for background */
     border-left: 6px solid #388e3c; /* Stronger green for the border */
-    color: #1b5e20; /* Darker green for text */
+    color: #2e7d32; /* Darker green for text */
 }
 
 .stAlert[data-testid="stAlert-info"] {
-    background-color: #bbdefb; /* Deeper blue for background */
+    background-color: #90caf9; /* Deeper blue for background */
     border-left: 6px solid #1976d2; /* Stronger blue for the border */
-    color: #0d47a1; /* Darker blue for text */
+    color: #1565c0; /* Darker blue for text */
 }
+
 
     </style>
 """, unsafe_allow_html=True)
