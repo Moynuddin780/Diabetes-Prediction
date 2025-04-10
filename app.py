@@ -14,15 +14,6 @@ st.markdown("""
         color: #0d1b2a;
     }
 
-    .main-container {
-        background-color: rgba(255, 255, 255, 0.85);
-        padding: 2.5rem;
-        border-radius: 20px;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-        margin: auto;
-        border: none;
-    }
-
     h1 {
         color: #01579b;
         text-align: center;
