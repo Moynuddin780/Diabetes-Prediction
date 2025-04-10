@@ -21,6 +21,7 @@ with st.form("diabetes_form"):
         age = st.number_input("Age", min_value=0, max_value=120, value=30)
         glucose = st.number_input("Glucose", value=120.0)
         ldl = st.number_input("LDL", value=100.0)
+        bmi = st.number_input("BMI", value=25.6)  # ✅ Added BMI here
     with col2:
         pregnancies = st.number_input("Pregnancies", min_value=0, value=2)
         blood_pressure = st.number_input("Blood Pressure", value=80.0)
@@ -42,26 +43,4 @@ with st.form("diabetes_form"):
         diet_type = st.selectbox("Diet Type (Healthy=1 / Unhealthy=0)", [1, 0])
         hypertension = st.selectbox("Hypertension (Yes=1 / No=0)", [1, 0])
 
-    medication_use = st.selectbox("Medication Use (Yes=1 / No=0)", [1, 0])
-
-    # 🔘 Predict Button
-    submit = st.form_submit_button("Predict")
-
-    if submit:
-        input_data = np.array([
-            age, pregnancies, 25.6, glucose, blood_pressure, hba1c,
-            ldl, hdl, triglycerides, waist, hip, whr,
-            family_history, diet_type, hypertension, medication_use
-        ])
-
-        input_scaled = scaler.transform(input_data.reshape(1, -1))
-        prediction = model.predict(input_scaled)
-
-        st.markdown("---")
-        if prediction[0] == 1:
-            st.markdown("<h3 style='color: #ff6666; text-align: center;'>⚠️ **You may be Diabetic.**</h3>", unsafe_allow_html=True)
-            st.markdown("<p style='font-size: 1.2rem; text-align: center;'>Take care 💙 — with proper treatment and lifestyle, you can stay healthy.</p>", unsafe_allow_html=True)
-        else:
-            st.markdown("<h3 style='color: #66bb6a; text-align: center;'>✅ **You are not Diabetic.**</h3>", unsafe_allow_html=True)
-            st.balloons()
-            st.markdown("<p style='font-size: 1.2rem; text-align: center;'>🎉 Congrats! Keep maintaining a healthy lifestyle.</p>", unsafe_allow_html=True)
+    medication_use = st.selectbox("Medication Use_
