@@ -5,7 +5,81 @@ import pickle
 # 🎨 Page config
 st.set_page_config(page_title="Diabetes Prediction", layout="centered")
 
-
+# 🌈 Custom CSS
+st.markdown("""
+    <style>
+    .stApp {
+        background: linear-gradient(to right, #9fc9d7, #80b0c1, #6c98a9);
+        font-family: 'Segoe UI', sans-serif;
+        color: #0d1b2a;
+    }
+    .main-container {
+        background-color: rgba(255, 255, 255, 0.85);
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        margin: auto;
+        border: none;
+    }
+    h1 {
+        color: #01579b;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    .stButton>button {
+        background: linear-gradient(to right, #00acc1, #26c6da);
+        color: white;
+        padding: 0.75rem 2rem;
+        font-size: 1.1rem;
+        font-weight: bold;
+        border-radius: 10px;
+        border: none;
+        transition: all 0.3s ease-in-out;
+        text-transform: uppercase;
+    }
+    .stButton>button:hover {
+        background: linear-gradient(to right, #0097a7, #00acc1);
+        transform: scale(1.03);
+    }
+    .stSelectbox>div>div,
+    .stNumberInput>div>div {
+        border-radius: 8px;
+    }
+    .stTextInput>div>div,
+    .stNumberInput>div>div {
+        background-color: rgba(255, 255, 255, 0.75);
+        border-radius: 8px;
+        color: #0d1b2a;
+    }
+    .stSelectbox, .stNumberInput {
+        font-size: 1rem;
+        color: #0d1b2a;
+    }
+    .stForm label {
+        color: #0d1b2a;
+        font-weight: bold;
+    }
+    .stAlert {
+        font-size: 1.1rem;
+        border-radius: 10px;
+    }
+    .stAlert[data-testid="stAlert-danger"] {
+        background-color: #ffebee;
+        border-left: 6px solid #d32f2f;
+        color: #b71c1c;
+    }
+    .stAlert[data-testid="stAlert-success"] {
+        background-color: #e8f5e9;
+        border-left: 6px solid #388e3c;
+        color: #1b5e20;
+    }
+    .stAlert[data-testid="stAlert-info"] {
+        background-color: #e3f2fd;
+        border-left: 6px solid #1976d2;
+        color: #0d47a1;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 # ✅ Load Model and Scaler
 with open("diabetes_model.pkl", "rb") as f:
@@ -55,10 +129,18 @@ with st.form("diabetes_form"):
         st.markdown("---")
         if prediction[0] == 1:
             st.error("⚠️ **You may be Diabetic.**")
-            st.info("Take care 💙 — with proper treatment and lifestyle, you can stay healthy.")
+            st.markdown("""
+                <div style="font-size: 1.3rem; color: #0d47a1; margin-top: 1rem;">
+                    Take care 💙 — with proper treatment and lifestyle, you can stay healthy.
+                </div>
+            """, unsafe_allow_html=True)
         else:
             st.success("✅ **You are not Diabetic.**")
             st.balloons()
-            st.markdown("🎉 Congrats! Keep maintaining a healthy lifestyle.")
+            st.markdown("""
+                <div style="font-size: 1.4rem; color: #1b5e20; margin-top: 1rem;">
+                    🎉 Congrats! Keep maintaining a healthy lifestyle.
+                </div>
+            """, unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
