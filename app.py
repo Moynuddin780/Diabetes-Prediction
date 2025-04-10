@@ -60,28 +60,30 @@ st.markdown("""
     }
 
     /* Output message color adjustments */
-    .stAlert {
-        font-size: 1.1rem;
-        border-radius: 10px;
-    }
+  /* Output message color adjustments */
+.stAlert {
+    font-size: 1.1rem;
+    border-radius: 10px;
+}
 
-    .stAlert[data-testid="stAlert-danger"] {
-        background-color: #ffebee;
-        border-left: 6px solid #d32f2f;
-        color: #b71c1c;
-    }
+.stAlert[data-testid="stAlert-danger"] {
+    background-color: #ffcccc; /* Deeper red for background */
+    border-left: 6px solid #d32f2f; /* Stronger red for the border */
+    color: #b71c1c; /* Darker red for text */
+}
 
-    .stAlert[data-testid="stAlert-success"] {
-        background-color: #e8f5e9;
-        border-left: 6px solid #388e3c;
-        color: #1b5e20;
-    }
+.stAlert[data-testid="stAlert-success"] {
+    background-color: #c8e6c9; /* Deeper green for background */
+    border-left: 6px solid #388e3c; /* Stronger green for the border */
+    color: #1b5e20; /* Darker green for text */
+}
 
-    .stAlert[data-testid="stAlert-info"] {
-        background-color: #e3f2fd;
-        border-left: 6px solid #1976d2;
-        color: #0d47a1;
-    }
+.stAlert[data-testid="stAlert-info"] {
+    background-color: #bbdefb; /* Deeper blue for background */
+    border-left: 6px solid #1976d2; /* Stronger blue for the border */
+    color: #0d47a1; /* Darker blue for text */
+}
+
     </style>
 """, unsafe_allow_html=True)
 
