@@ -9,18 +9,17 @@ st.set_page_config(page_title="Diabetes Prediction", layout="centered")
 st.markdown("""
     <style>
     .stApp {
-        background: linear-gradient(to right, #9fc9d7, #80b0c1, #6c98a9);  /* Darker gradient */
+        background: linear-gradient(to right, #7fa6b1, #658c99, #507783);
         font-family: 'Segoe UI', sans-serif;
         color: #0d1b2a;
     }
 
     .main-container {
-        background-color: rgba(255, 255, 255, 0.85);
+        background-color: rgba(255, 255, 255, 0.95);
         padding: 2.5rem;
         border-radius: 20px;
         box-shadow: 0 8px 30px rgba(0,0,0,0.1);
         margin: auto;
-        border: none; /* Remove the white block's border */
     }
 
     h1 {
@@ -30,7 +29,7 @@ st.markdown("""
     }
 
     .stButton>button {
-        background: linear-gradient(to right, #00acc1, #26c6da);
+        background-color: #007c91;
         color: white;
         padding: 0.75rem 2rem;
         font-size: 1.1rem;
@@ -38,12 +37,13 @@ st.markdown("""
         border-radius: 10px;
         border: none;
         transition: all 0.3s ease-in-out;
-        text-transform: uppercase;  /* Make the text uppercase */
+        text-transform: uppercase;
     }
 
     .stButton>button:hover {
-        background: linear-gradient(to right, #0097a7, #00acc1);
-        transform: scale(1.03);
+        background-color: #005f6b;
+        transform: scale(1.05);
+        color: #ffffff;
     }
 
     .stSelectbox>div>div,
@@ -53,7 +53,7 @@ st.markdown("""
 
     .stTextInput>div>div,
     .stNumberInput>div>div {
-        background-color: rgba(255, 255, 255, 0.75);
+        background-color: rgba(255, 255, 255, 0.85);
         border-radius: 8px;
         color: #0d1b2a;
     }
@@ -67,6 +67,15 @@ st.markdown("""
         color: #0d1b2a;
         font-weight: bold;
     }
+
+    /* Output message box customization */
+    .element-container .stAlert {
+        font-size: 1.1rem;
+        font-weight: bold;
+        border-radius: 10px;
+        padding: 1rem;
+    }
+
     </style>
 """, unsafe_allow_html=True)
 
@@ -126,7 +135,7 @@ with st.form("diabetes_form"):
         st.markdown("---")
         if prediction[0] == 1:
             st.error("⚠️ **You may be Diabetic.**")
-            st.info("Take care 💙 — with proper treatment and lifestyle, you can stay healthy.")
+            st.info("💙 With proper treatment and lifestyle, you can stay healthy.")
         else:
             st.success("✅ **You are not Diabetic.**")
             st.balloons()
