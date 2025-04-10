@@ -18,25 +18,25 @@ st.markdown("<h1 style='text-align:center;'>🩺 Diabetes Prediction</h1>", unsa
 with st.form("diabetes_form"):
     col1, col2 = st.columns(2)
     with col1:
-        age = st.number_input("Age", min_value=0, max_value=120, value=)
-        glucose = st.number_input("Glucose", value=)
-        ldl = st.number_input("LDL", value=)
+        age = st.number_input("Age", min_value=0, max_value=120, value=0.0)
+        glucose = st.number_input("Glucose", value=0.0)
+        ldl = st.number_input("LDL", value=0.0)
     with col2:
-        pregnancies = st.number_input("Pregnancies", min_value=0, value=)
-        blood_pressure = st.number_input("Blood Pressure", value=)
-        hba1c = st.number_input("HbA1c", value=)
+        pregnancies = st.number_input("Pregnancies", min_value=0, value=0.0)
+        blood_pressure = st.number_input("Blood Pressure", value=0.0)
+        hba1c = st.number_input("HbA1c", value=0.0)
 
     col3, col4 = st.columns(2)
     with col3:
-        hdl = st.number_input("HDL", value=)
-        waist = st.number_input("Waist Circumference", value=)
+        hdl = st.number_input("HDL", value=0.0)
+        waist = st.number_input("Waist Circumference", value=0.0)
     with col4:
-        triglycerides = st.number_input("Triglycerides", value=)
-        hip = st.number_input("Hip Circumference", value=)
+        triglycerides = st.number_input("Triglycerides", value=0.0)
+        hip = st.number_input("Hip Circumference", value=0.0)
 
     col5, col6 = st.columns(2)
     with col5:
-        whr = st.number_input("WHR", value=)
+        whr = st.number_input("WHR", value=0.0)
         family_history = st.selectbox("Family History (Yes=1 / No=0)", [1, 0])
     with col6:
         diet_type = st.selectbox("Diet Type (Healthy=1 / Unhealthy=0)", [1, 0])
