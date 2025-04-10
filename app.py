@@ -5,99 +5,6 @@ import pickle
 # 🎨 Page config
 st.set_page_config(page_title="Diabetes Prediction", layout="centered")
 
-# 🌈 Custom CSS for Output Section
-st.markdown("""
-    <style>
-    .stApp {
-        background: linear-gradient(to right, #d3eaf2, #b0d0d9, #a3b7c8); /* Lighter background colors */
-        font-family: 'Segoe UI', sans-serif;
-        color: #0d1b2a;
-    }
-
-    h1 {
-        color: #01579b;
-        text-align: center;
-        margin-bottom: 2rem;
-    }
-
-    .stButton>button {
-        background: linear-gradient(to right, #00acc1, #26c6da);
-        color: white;
-        padding: 0.75rem 2rem;
-        font-size: 1.1rem;
-        font-weight: bold;
-        border-radius: 10px;
-        border: none;
-        transition: all 0.3s ease-in-out;
-        text-transform: uppercase;
-    }
-
-    .stButton>button:hover {
-        background: linear-gradient(to right, #0097a7, #00acc1);
-        transform: scale(1.03);
-    }
-
-    .stSelectbox>div>div,
-    .stNumberInput>div>div {
-        border-radius: 8px;
-    }
-
-    .stTextInput>div>div,
-    .stNumberInput>div>div {
-        background-color: rgba(255, 255, 255, 0.75);
-        border-radius: 8px;
-        color: #0d1b2a;
-    }
-
-    .stSelectbox, .stNumberInput {
-        font-size: 1rem;
-        color: #0d1b2a;
-    }
-
-    .stForm label {
-        color: #0d1b2a;
-        font-weight: bold;
-    }
-
-    /* Custom Styling for Output Messages */
-    .stAlert {
-        font-size: 1.2rem;  /* Increased font size */
-        font-weight: bold;
-        border-radius: 15px;
-        padding: 1.5rem;
-        margin: 1rem 0;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .stAlert[data-testid="stAlert-danger"] {
-        background-color: #ffcccc; /* Light red for background */
-        border-left: 8px solid #d32f2f; /* Stronger red for the border */
-        color: #8b0000; /* Darker red for text */
-        font-size: 1.3rem; /* Slightly larger font */
-        text-align: center;
-    }
-
-    .stAlert[data-testid="stAlert-success"] {
-        background-color: #d4edda; /* Light green for background */
-        border-left: 8px solid #388e3c; /* Stronger green for the border */
-        color: #155724; /* Darker green for text */
-        font-size: 1.3rem; /* Slightly larger font */
-        text-align: center;
-    }
-
-    .stAlert[data-testid="stAlert-info"] {
-        background-color: #cce5ff; /* Light blue for background */
-        border-left: 8px solid #007bff; /* Stronger blue for the border */
-        color: #004085; /* Darker blue for text */
-        font-size: 1.3rem; /* Slightly larger font */
-        text-align: center;
-    }
-
-    </style>
-""", unsafe_allow_html=True)
-
-
-
 # ✅ Load Model and Scaler
 with open("diabetes_model.pkl", "rb") as f:
     model = pickle.load(f)
@@ -105,8 +12,7 @@ with open("diabetes_scaler.pkl", "rb") as f:
     scaler = pickle.load(f)
 
 # 💬 Title
-st.markdown('<div class="main-container">', unsafe_allow_html=True)
-st.markdown("<h1>🩺 Diabetes Prediction</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align:center;'>🩺 Diabetes Prediction</h1>", unsafe_allow_html=True)
 
 # 📥 Input Fields
 with st.form("diabetes_form"):
@@ -159,5 +65,3 @@ with st.form("diabetes_form"):
             st.success("✅ **You are not Diabetic.**")
             st.balloons()
             st.markdown("🎉 Congrats! Keep maintaining a healthy lifestyle.")
-
-st.markdown("</div>", unsafe_allow_html=True)
