@@ -64,10 +64,10 @@ with st.form("diabetes_form"):
             """, unsafe_allow_html=True)
         else:
             st.markdown("""
-                <div style="font-size: 2rem; font-weight: bold; color: #1b5e20;">
+                <div style="font-size: 2rem; font-weight: bold; color: #9ACBD0;">
                     ✅ You are not Diabetic.
                 </div>
-                <div style="font-size: 1.7rem; color: #1b5e20; margin-top: 1rem;">
+                <div style="font-size: 1.7rem; color: #48A6A7; margin-top: 1rem;">
                     🎉 Congrats! Keep maintaining a healthy lifestyle.
                 </div>
             """, unsafe_allow_html=True)
