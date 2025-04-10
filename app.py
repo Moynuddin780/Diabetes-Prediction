@@ -59,9 +59,9 @@ with st.form("diabetes_form"):
 
         st.markdown("---")
         if prediction[0] == 1:
-            st.error("⚠️ **You may be Diabetic.**")
-            st.info("Take care 💙 — with proper treatment and lifestyle, you can stay healthy.")
+            st.markdown("<h3 style='color: #ff6666; text-align: center;'>⚠️ **You may be Diabetic.**</h3>", unsafe_allow_html=True)
+            st.markdown("<p style='font-size: 1.2rem; text-align: center;'>Take care 💙 — with proper treatment and lifestyle, you can stay healthy.</p>", unsafe_allow_html=True)
         else:
-            st.success("✅ **You are not Diabetic.**")
+            st.markdown("<h3 style='color: #66bb6a; text-align: center;'>✅ **You are not Diabetic.**</h3>", unsafe_allow_html=True)
             st.balloons()
-            st.markdown("🎉 Congrats! Keep maintaining a healthy lifestyle.")
+            st.markdown("<p style='font-size: 1.2rem; text-align: center;'>🎉 Congrats! Keep maintaining a healthy lifestyle.</p>", unsafe_allow_html=True)
