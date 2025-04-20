@@ -1,11 +1,12 @@
 import streamlit as st
 import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
 import pickle
+from sklearn.linear_model import LogisticRegression
 
 # 🎨 Page config
 st.set_page_config(page_title="Diabetes Prediction", layout="centered")
-
-
 
 # ✅ Load Model and Scaler
 with open("diabetes_model.pkl", "rb") as f:
@@ -15,9 +16,9 @@ with open("diabetes_scaler.pkl", "rb") as f:
 
 # 💬 Title
 st.markdown('<div class="main-container">', unsafe_allow_html=True)
-st.markdown("<h1>🩺 Diabetes Prediction</h1>", unsafe_allow_html=True)
+st.markdown("<h1>🯪 Diabetes Prediction</h1>", unsafe_allow_html=True)
 
-# 📥 Input Fields
+# 📅 Input Form
 with st.form("diabetes_form"):
     col1, col2 = st.columns(2)
     with col1:
@@ -72,5 +73,31 @@ with st.form("diabetes_form"):
                 </div>
             """, unsafe_allow_html=True)
             st.balloons()
+
+# 📊 Feature Importance Section
+st.markdown("---")
+st.header("🔢 Feature Importance")
+
+# Load dataset again for feature importance
+df = pd.read_csv("diabetes.csv")
+X = df.drop(columns='Outcome')
+y = df['Outcome']
+
+# Logistic Regression for coefficients
+log_model = LogisticRegression(max_iter=1000)
+log_model.fit(X, y)
+importance = pd.Series(log_model.coef_[0], index=X.columns)
+importance = importance.abs().sort_values(ascending=True)
+
+# Plotting feature importance
+fig, ax = plt.subplots(figsize=(8, 6))
+importance.plot(kind='barh', ax=ax, color='teal')
+ax.set_title("Most Influential Features on Diabetes")
+ax.set_xlabel("Importance")
+st.pyplot(fig)
+
+st.markdown("""
+> **Top features like Glucose, HbA1c, BMI, etc.** contribute the most in predicting diabetes.
+""")
 
 st.markdown("</div>", unsafe_allow_html=True)
